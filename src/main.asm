@@ -4,8 +4,5 @@ bits 16
 main:
     hlt
 
-.halt:
-    jmp .halt
-
 times 510-($-$$) db 0
-dw 0xAA55
+db 0x55, 0xAA
