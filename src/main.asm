@@ -41,7 +41,6 @@ main:
     ; print message
     mov si, msg_hello
     call puts
-sda
     hlt
 
     .halt: 
