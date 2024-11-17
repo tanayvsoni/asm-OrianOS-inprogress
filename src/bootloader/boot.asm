@@ -3,32 +3,34 @@ bits 16         ; 16-bit code
 
 %define ENDL 0x0D, 0x0A
 
-;   FAT12 Header
-BOOT:
+start:
     jmp main
     times 3-($-$$) db 0x90   ; Support 2 or 3 byte encoded JMPs before BPB, 0x90 = NOP
+
+;   FAT12 Header
+BOOT:
 
     OEM_name:               db    "mkfs.fat"
     bytes_per_sector:       dw    512
     sect_per_cluster:       db    1
     reserved_sectors:       dw    1
     num_FAT:                db    2
-    num_root_dir_entries:   dw    224
-    num_sectors:            dw    2880
-    media_Type:             db    0xf0
-    num_sectors_per_FAT:    dw    9
+    num_root_dir_entries:   dw    0E0h
+    num_sectors:            dw    2880              ; 2880 * 512 = 1.44MB
+    media_Type:             db    0F0h              ; F0 = 3.5" floppy disk
+    num_sectors_per_FAT:    dw    9                 ; 0 sectors/fat
     sectors_per_track:      dw    18
     num_heads:              dw    2
     num_hidden_sectors:     dd    0
     num_sectors_huge:       dd    0
     
     ; extended boot record
-    drive_num:          db    0
-    reserved:           db    0
+    drive_num:          db    0                     ; 0x00 floppy, 0x80 HDD
+    reserved:           db    0 
     signature:          db    0x29
     volume_ID:          dd    0x2d7e5a1a
-    volume_label:       db    "ORIAN OS   "
-    file_sys_type:      db    "FAT12   "
+    volume_label:       db    "ORIAN OS   "         ; 11 bytes
+    file_sys_type:      db    "FAT12   "            ; 8 bytes
 
 main:
 
