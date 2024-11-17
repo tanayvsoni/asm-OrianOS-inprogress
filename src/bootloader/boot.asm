@@ -1,13 +1,10 @@
 org 0x7C00
-bits 16
+bits 16         ; 16-bit code
 
 %define ENDL 0x0D, 0x0A
 
-BOOT:
-;
 ;   FAT12 Header
-;   Boot 
-;
+BOOT:
     jmp main
     times 3-($-$$) db 0x90   ; Support 2 or 3 byte encoded JMPs before BPB, 0x90 = NOP
 
@@ -60,9 +57,8 @@ main:
     cli
     hlt
 
-;
-;   Disk Routines   
-;
+
+;Disk Routines   
 lba_to_chs:
 ;
 ;   Converts an LBA address to a CHS address
